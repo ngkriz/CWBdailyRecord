@@ -9,6 +9,7 @@ def obsfinder():
     
     from calendar import monthrange
     day=monthrange(YY, MM)[1]
+    print ('Numer of days = '+ str(day))
         
     for i in range (1,day+1):
         selectmonth = observations.split('<td nowrap>')[i].lstrip().split('</tr>')[0]
