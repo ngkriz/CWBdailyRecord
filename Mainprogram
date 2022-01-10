@@ -1,17 +1,17 @@
-##functions
-
-
-
 
 # pull temp data from observation
 def obsfinder():
     messtext=data.text
     observations = messtext.split('<tr class="second_tr">')[1].lstrip().split('</tbody>')[0]
 
-
-
+    YY=int(Year)
+    MM=int(Month)
+    
+    from calendar import monthrange
+    day=monthrange(YY, MM)[1]
+    print (day)
         
-    for i in range (1,13):
+    for i in range (1,day+1):
         selectmonth = observations.split('<td nowrap>')[i].lstrip().split('</tr>')[0]
         
         
@@ -36,32 +36,28 @@ def obsfinder():
 
 
 
-
-
-
-
-
-
-
-
 ## Start the execution
 
 # 1.input the link from CWB eg: https://e-service.cwb.gov.tw/HistoryDataQuery/YearDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker=1997
-Link = str(input("Enter station link without the Year at the end. Sample: https://e-service.cwb.gov.tw/HistoryDataQuery/YearDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker="))
+Link = str(input("Enter station link without the Year at the end. Sample: https://e-service.cwb.gov.tw/HistoryDataQuery/MonthDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker="))
 
 import requests  
 obsdata={"Date":[],"Temp":[],"Tmax":[]}
 
-for Year in range (1995,2022):
+for Year in range (2019,2021):
     Y = str(Year)
-    url = Link + Y
-    data = requests.get(url)
-    print('Processing year -' + Y)
-    obsfinder()
+    for Month in range (1,13):
+        M = str(Month)
+        if Month<10:
+            M='0'+M
+        url = Link + Y + '-'+ M
+        print('Processing month:' + Y + '-' + M)
+        data = requests.get(url)
+        obsfinder()
 
 
 
-
+        
 
 
 
@@ -92,7 +88,7 @@ import base64, io
 def createlink():  
     # generate Temp record
     extractlocation = data.text.split('encodeURI("')[1].lstrip().split('")')[0]
-    filename= extractlocation+'DateTempTmax.csv'
+    filename= extractlocation+'DailyTempTmax.csv'
     downloadtitle="Download my data of: " + filename
     csv = DateTempTmax.to_csv(index=True)
     b64 = base64.b64encode(csv.encode())
@@ -108,3 +104,4 @@ def createlink():
 
 # Show the download links
 createlink()
+    
