@@ -9,13 +9,12 @@ def obsfinder():
     
     from calendar import monthrange
     day=monthrange(YY, MM)[1]
-    print ('Numer of days = '+ str(day))
+    print('Processing month:' + Y + '-' + M + ' with number of days = '+ str(day))
         
     for i in range (1,day+1):
         selectmonth = observations.split('<td nowrap>')[i].lstrip().split('</tr>')[0]
         
         
-       ###insert here
         extractdate = selectmonth.split('<td nowrap>')[0].lstrip().split('</td>')[0]
         extractTemp = selectmonth.split('<td>')[7].lstrip().split('&nbsp;</td>')[0]
         extractTmax = selectmonth.split('<td>')[8].lstrip().split('&nbsp;</td>')[0]
@@ -41,18 +40,25 @@ def obsfinder():
 
 # 1.input the link from CWB eg: https://e-service.cwb.gov.tw/HistoryDataQuery/YearDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker=1997
 Link = str(input("Enter station link without the Year at the end. Sample: https://e-service.cwb.gov.tw/HistoryDataQuery/MonthDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker="))
+Startyear = int(input("Enter the starting year - from 1995"))
+Endyear = int(input("Enter the end year - up to 2021"))
 
-import requests  
-obsdata={"Year":[],"Month":[],"Day":[],"Temp":[],"Tmax":[]}
+Fulllink=Link+"2020-01"
+import requests 
+data = requests.get(Fulllink)
+location = data.text.split('encodeURI("')[1].lstrip().split('")')[0]
 
-for Year in range (1995,2022):
+print ('Processing '+ str(Startyear) + ' - ' + str(Endyear) + ' of ' + location)
+ 
+obsdata = {"Year":[],"Month":[],"Day":[],"Temp":[],"Tmax":[]}
+
+for Year in range (Startyear,Endyear +1):
     Y = str(Year)
     for Month in range (1,13):
         M = str(Month)
         if Month<10:
             M='0'+M
         url = Link + Y + '-'+ M
-        print('Processing month:' + Y + '-' + M)
         data = requests.get(url)
         obsfinder()
 
