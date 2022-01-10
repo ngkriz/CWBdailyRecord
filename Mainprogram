@@ -9,7 +9,6 @@ def obsfinder():
     
     from calendar import monthrange
     day=monthrange(YY, MM)[1]
-    print (day)
         
     for i in range (1,day+1):
         selectmonth = observations.split('<td nowrap>')[i].lstrip().split('</tr>')[0]
@@ -23,8 +22,9 @@ def obsfinder():
 
  
     
-    
-        obsdata["Date"].append(Y+ extractdate)
+        obsdata["Year"].append(YY)
+        obsdata["Month"].append(M)
+        obsdata["Day"].append(i)
         obsdata["Temp"].append(extractTemp)
         obsdata["Tmax"].append(extractTmax)
 
@@ -42,9 +42,9 @@ def obsfinder():
 Link = str(input("Enter station link without the Year at the end. Sample: https://e-service.cwb.gov.tw/HistoryDataQuery/MonthDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker="))
 
 import requests  
-obsdata={"Date":[],"Temp":[],"Tmax":[]}
+obsdata={"Year":[],"Month":[],"Day":[],"Temp":[],"Tmax":[]}
 
-for Year in range (2019,2021):
+for Year in range (1995,2022):
     Y = str(Year)
     for Month in range (1,13):
         M = str(Month)
