@@ -1,4 +1,3 @@
-
 # pull temp data from observation
 def obsfinder():
     messtext=data.text
@@ -39,7 +38,8 @@ def obsfinder():
 ## Start the execution
 
 # 1.input the link from CWB eg: https://e-service.cwb.gov.tw/HistoryDataQuery/YearDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker=1997
-Link = str(input("Enter station link without the Year at the end. Sample: https://e-service.cwb.gov.tw/HistoryDataQuery/MonthDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker="))
+print ('Enter station link without the Year at the end.')
+Link = str(input("Sample: https://e-service.cwb.gov.tw/HistoryDataQuery/MonthDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker="))
 Startyear = int(input("Enter the starting year - from 1995"))
 Endyear = int(input("Enter the end year - up to 2021"))
 
@@ -117,4 +117,3 @@ def createlink():
 
 # Show the download links
 createlink()
-    
