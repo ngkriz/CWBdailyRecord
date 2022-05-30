@@ -39,11 +39,18 @@ def obsfinder():
 
 # 1.input the link from CWB eg: https://e-service.cwb.gov.tw/HistoryDataQuery/YearDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker=1997
 print ('Enter station link without the Year at the end. Sample: ')
-Link = str(input("https://e-service.cwb.gov.tw/HistoryDataQuery/MonthDataController.do?command=viewMain&station=466920&stname=%25E8%2587%25BA%25E5%258C%2597&datepicker="))
+Link = str(input("https://e-service.cwb.gov.tw/HistoryDataQuery/MonthDataController.do?command=viewMain&station=C0G640&stname=%25E9%25B9%25BF%25E6%25B8%25AF&datepicker=2000-05&altitude=17m"))
+
+link0 = Link.split('datepicker=')[0].lstrip()+'datepicker='
+link1 = Link.split('datepicker=')[1].lstrip().split('&')[0]
+Alt = '&'+Link.split('datepicker=')[1].lstrip().split('&')[1]
+
+
+print ()
 Startyear = int(input("Enter the starting year - from 1995"))
 Endyear = int(input("Enter the end year - up to 2021"))
 
-Fulllink=Link+"2020-01"
+Fulllink= link0 +"2020-01"+Alt
 import requests 
 data = requests.get(Fulllink)
 location = data.text.split('encodeURI("')[1].lstrip().split('")')[0]
@@ -65,7 +72,7 @@ for Year in range (Startyear,Endyear +1):
         M = str(Month)
         if Month<10:
             M='0'+M
-        url = Link + Y + '-'+ M
+        url = link0 + Y + '-'+ M+ Alt
         data = requests.get(url)
         obsfinder()
 
